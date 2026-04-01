@@ -4,6 +4,7 @@ import app from './src/app.js';
 import { connectDB } from './src/config/db.js';
 import { initSocket } from './src/config/socket.js';
 import logger from './src/config/logger.js';
+import "./worker.js";
 
 console.log("MONGO URI:", process.env.MONGODB_URI);
 const PORT = parseInt(process.env.PORT) || 5000;

@@ -10,48 +10,58 @@ import logger from '../config/logger.js';
 // Response 202: { success: true, data: { message, eventId, status } }
 export const receiveWebhook = asyncHandler(async (req, res) => {
   const project = req.project; // Attached by validateApiKey middleware
+  // ✅ ADD THIS HERE
+  if (!req.body || Object.keys(req.body).length === 0) {
+    return res.status(400).json({ error: "Payload required" });
+  }
 
   // Idempotency check
-  const xEventId = req.headers['x-event-id'] || null;
+  const xEventId = req.headers["x-event-id"] || null;
   if (xEventId) {
-    const existing = await Event.findOne({ eventId: xEventId, projectId: project._id });
+    const existing = await Event.findOne({
+      eventId: xEventId,
+      projectId: project._id,
+    });
     if (existing) {
       return sendSuccess(
         res,
-        { message: 'Event already received', eventId: existing._id },
+        { message: "Event already received", eventId: existing._id },
         200,
-        'Duplicate event'
+        "Duplicate event",
       );
     }
   }
 
+  if (!req.body) req.body = {};
   // Create event document
   const event = await Event.create({
     projectId: project._id,
     eventId: xEventId,
     payload: req.body,
     headers: {
-      contentType: req.headers['content-type'] || null,
-      userAgent: req.headers['user-agent'] || null,
+      contentType: req.headers["content-type"] || null,
+      userAgent: req.headers["user-agent"] || null,
       xEventId: xEventId,
-      xGithubEvent: req.headers['x-github-event'] || null,
+      xGithubEvent: req.headers["x-github-event"] || null,
     },
-    status: 'pending',
+    status: "pending",
   });
 
-  logger.info(`Webhook received for project ${project._id}, eventId: ${event._id}`);
+  logger.info(
+    `Webhook received for project ${project._id}, eventId: ${event._id}`,
+  );
 
   // Enqueue job
   const job = await enqueueWebhookJob(event._id.toString());
-
   // Save jobId back to event
   event.jobId = job.id;
+
   await event.save();
 
   sendSuccess(
     res,
-    { message: 'Webhook received', eventId: event._id, status: 'pending' },
+    { message: "Webhook received", eventId: event._id, status: "pending" },
     202,
-    'Webhook accepted'
+    "Webhook accepted",
   );
 });

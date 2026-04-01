@@ -3,6 +3,7 @@ import authRoutes from './auth.routes.js';
 import projectRoutes from './project.routes.js';
 import eventRoutes from './event.routes.js';
 import webhookRoutes from './webhook.routes.js';
+import processRoutes from "./process.routes.js";
 
 const router = Router();
 
@@ -20,5 +21,6 @@ router.use('/auth', authRoutes);
 router.use('/projects', projectRoutes);
 router.use('/events', eventRoutes);
 router.use('/webhook', webhookRoutes);
+router.use("/process", processRoutes);
 
 export default router;

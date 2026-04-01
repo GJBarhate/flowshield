@@ -8,8 +8,11 @@ import routes from './routes/index.js';
 import { apiLimiter } from './middleware/rateLimiter.middleware.js';
 import { errorHandler } from './middleware/errorHandler.middleware.js';
 import AppError from './utils/AppError.js';
+import processRoutes from "./routes/process.routes.js";
 
 const app = express();
+
+app.use("/api", processRoutes);
 
 const allowedOrigins = (process.env.ALLOWED_ORIGINS || 'http://localhost:5173,http://localhost:3000')
   .split(',')
