@@ -27,7 +27,7 @@ export default function TestWebhook({ projectId, apiKey }) {
       const BASE_URL = import.meta.env.VITE_API_URL;
 
       await axios.post(
-        `${BASE_URL}/api/webhook/${projectId}`,
+        `${BASE_URL}/webhook/${projectId}`,
         {
           event,
           data: {
