@@ -11,6 +11,7 @@ import { useEventStore } from '@/store/eventStore.js';
 import { useProjectStore } from '@/store/projectStore.js';
 import { useSocket } from '@/hooks/useSocket.js';
 import { useToast } from '@/hooks/useToast.js';
+import TestWebhook from "../components/features/TestWebhook";
 
 const STATUS_FILTERS = [
   { value: 'all', label: 'All' },
@@ -158,7 +159,7 @@ export default function ProjectDetailPage() {
       {/* Header */}
       <div className="flex items-center gap-3">
         <button
-          onClick={() => navigate('/projects')}
+          onClick={() => navigate("/projects")}
           className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors flex-shrink-0"
           aria-label="Back to projects"
         >
@@ -166,22 +167,24 @@ export default function ProjectDetailPage() {
         </button>
         <div className="min-w-0 flex-1">
           <h1 className="text-xl font-bold text-white truncate">
-            {project?.name || 'Project Details'}
+            {project?.name || "Project Details"}
           </h1>
           {project?.description && (
-            <p className="text-sm text-slate-400 truncate">{project.description}</p>
+            <p className="text-sm text-slate-400 truncate">
+              {project.description}
+            </p>
           )}
         </div>
         <div className="flex items-center gap-2 flex-shrink-0">
           <span
             className={`hidden sm:inline-flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full font-medium ${
               connected
-                ? 'text-green-400 bg-green-500/10'
-                : 'text-yellow-400 bg-yellow-500/10 animate-pulse'
+                ? "text-green-400 bg-green-500/10"
+                : "text-yellow-400 bg-yellow-500/10 animate-pulse"
             }`}
           >
             <span className="w-1.5 h-1.5 rounded-full bg-current" />
-            {connected ? 'Live' : 'Reconnecting…'}
+            {connected ? "Live" : "Reconnecting…"}
           </span>
           <button
             onClick={handleRefresh}
@@ -189,7 +192,9 @@ export default function ProjectDetailPage() {
             className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors disabled:opacity-50"
             title="Refresh"
           >
-            <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
+            <RefreshCw
+              className={`w-4 h-4 ${refreshing ? "animate-spin" : ""}`}
+            />
           </button>
         </div>
       </div>
@@ -197,7 +202,9 @@ export default function ProjectDetailPage() {
       {/* API Key & Webhook URL */}
       {project && (
         <div className="bg-slate-800 border border-slate-700 rounded-xl p-5">
-          <h3 className="text-sm font-semibold text-white mb-4">Endpoint Configuration</h3>
+          <h3 className="text-sm font-semibold text-white mb-4">
+            Endpoint Configuration
+          </h3>
           <ApiKeyDisplay
             apiKey={project.apiKey}
             webhookUrl={project.webhookUrl}
@@ -207,12 +214,36 @@ export default function ProjectDetailPage() {
         </div>
       )}
 
+      {project && (
+        <TestWebhook projectId={project._id} apiKey={project.apiKey} />
+      )}
+
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard title="Total" value={stats.total} icon={Activity} color="indigo" />
-        <StatCard title="Success" value={stats.success} icon={CheckCircle} color="green" />
-        <StatCard title="Failed" value={stats.failed} icon={XCircle} color="red" />
-        <StatCard title="Pending" value={stats.pending} icon={Clock} color="yellow" />
+        <StatCard
+          title="Total"
+          value={stats.total}
+          icon={Activity}
+          color="indigo"
+        />
+        <StatCard
+          title="Success"
+          value={stats.success}
+          icon={CheckCircle}
+          color="green"
+        />
+        <StatCard
+          title="Failed"
+          value={stats.failed}
+          icon={XCircle}
+          color="red"
+        />
+        <StatCard
+          title="Pending"
+          value={stats.pending}
+          icon={Clock}
+          color="yellow"
+        />
       </div>
 
       {/* Filters */}
@@ -225,8 +256,8 @@ export default function ProjectDetailPage() {
               onClick={() => setStatusFilter(value)}
               className={`text-xs px-3 py-1.5 rounded-lg font-medium transition-colors ${
                 statusFilter === value
-                  ? 'bg-indigo-500 text-white'
-                  : 'bg-slate-800 text-slate-400 hover:text-white border border-slate-700 hover:border-slate-600'
+                  ? "bg-indigo-500 text-white"
+                  : "bg-slate-800 text-slate-400 hover:text-white border border-slate-700 hover:border-slate-600"
               }`}
             >
               {label}
@@ -244,8 +275,8 @@ export default function ProjectDetailPage() {
               onClick={() => setDateRangeDays(days)}
               className={`text-xs px-3 py-1.5 rounded-lg font-medium transition-colors ${
                 dateRangeDays === days
-                  ? 'bg-indigo-500 text-white'
-                  : 'bg-slate-800 text-slate-400 hover:text-white border border-slate-700 hover:border-slate-600'
+                  ? "bg-indigo-500 text-white"
+                  : "bg-slate-800 text-slate-400 hover:text-white border border-slate-700 hover:border-slate-600"
               }`}
             >
               {label}
