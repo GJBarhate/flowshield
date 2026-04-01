@@ -24,8 +24,10 @@ export default function TestWebhook({ projectId, apiKey }) {
     try {
       setLoading(true);
 
+      const BASE_URL = import.meta.env.VITE_API_URL;
+
       await axios.post(
-        `http://localhost:5000/api/webhook/${projectId}`,
+        `${BASE_URL}/api/webhook/${projectId}`,
         {
           event,
           data: {
@@ -37,7 +39,7 @@ export default function TestWebhook({ projectId, apiKey }) {
           headers: {
             "x-api-key": apiKey,
           },
-        }
+        },
       );
 
       // ✅ Reset fields
