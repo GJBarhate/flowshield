@@ -143,13 +143,13 @@ VITE_SOCKET_URL=http://localhost:5000
 ## 🚀 Deploy
 
 - **Frontend** — Vercel: connect repo, set `VITE_API_URL` in project settings.
-- **Backend** — Railway / Render: set all `.env` variables, run `npm start` and `npm run worker` as separate services.
+- **Backend** — Render: set all `.env` variables, run `npm start` as separate service.
 
 ---
 
 ## 👤 Author
 
-**Your Name**  
+**Gaurav Barhate**  
 Full-stack developer — building reliable infrastructure tooling.  
 [GitHub](https://github.com/GJBarhate) · [LinkedIn](www.linkedin.com/in/gaurav-barhate-056175271)
 
